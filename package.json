@@ -1,0 +1,22 @@
+{
+  "name": "nyt-watson-podcast",
+  "version": "1.0.0",
+  "description": "Here's IBM's Watson with the New York Times top stories of the day",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nbedi/nyt-watson-podcast.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nbedi/nyt-watson-podcast/issues"
+  },
+  "homepage": "https://github.com/nbedi/nyt-watson-podcast",
+  "dependencies": {
+    "watson-developer-cloud": "^0.10.3"
+  }
+}
