@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/nbedi/nyt-watson-podcast",
   "dependencies": {
+    "node-jsxml": "^0.6.0",
     "request": "^2.62.0",
     "watson-developer-cloud": "^0.10.3"
   }
