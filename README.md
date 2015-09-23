@@ -21,4 +21,4 @@ Site at http://neilbedi.com/nyt-watson-podcast
 
 ## License
 
-lyst is released under GNU AGPLv3. See [LICENSE](https://github.com/nbedi/nyt-watson-podcast/blob/master/LICENSE) for more details
+nyt-watson-podcast is released under GNU AGPLv3. See [LICENSE](https://github.com/nbedi/nyt-watson-podcast/blob/master/LICENSE) for more details
