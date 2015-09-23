@@ -3,8 +3,14 @@ var fs = require('fs');
 var request = require('request');
 var nyt = 'http://www.nytimes.com/pages/nytnow/nytnow-email/';
 var watson_params = require('./watson-params.json');
+var jsxml = require("node-jsxml");
+var exec = require('child_process').exec;
 
 var text_to_speech = watson.text_to_speech(watson_params);
+
+var d = new Date();
+var days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+var day = days[d.getDay()-1];
 
 request(nyt, function (error, response, body) {
   if (!error && response.statusCode == 200) {
@@ -32,6 +38,19 @@ request(nyt, function (error, response, body) {
         // Pipe the synthesized text to a file 
         text_to_speech.synthesize(params).pipe(fs.createWriteStream('output'+i+'.wav'));
         soxString += "output" + i + ".wav ";
+    });
+    var child1 = exec('sox '+ soxString +' output.wav',
+      function (error, stdout, stderr) {
+        if (error !== null) {
+          console.log('exec error: ' + error);
+        } else {
+          var child2 = exec('afconvert -d alac output.wav '+ day +'.m4a',
+            function (error, stdout, stderr) {
+              if (error !== null) {
+                console.log('exec error: ' + error);
+              }
+            });              
+        }
     });
   }
 });
