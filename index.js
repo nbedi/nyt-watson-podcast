@@ -3,15 +3,15 @@ var fs = require('fs');
 var request = require('request');
 var nyt = 'http://www.nytimes.com/pages/nytnow/nytnow-email/';
 var watson_params = require('./watson-params.json');
-var jsxml = require("node-jsxml");
+var libxml = require("libxmljs");
 var exec = require('child_process').exec;
 
-var text_to_speech = watson.text_to_speech(watson_params);
-
+// var text_to_speech = watson.text_to_speech(watson_params);
+// 
 var d = new Date();
 var days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 var day = days[d.getDay()-1];
-
+ 
 request(nyt, function (error, response, body) {
   if (!error && response.statusCode == 200) {
     
@@ -48,9 +48,64 @@ request(nyt, function (error, response, body) {
             function (error, stdout, stderr) {
               if (error !== null) {
                 console.log('exec error: ' + error);
+              } else {
+                generateXml();
               }
             });              
         }
     });
   }
 });
+
+function generateXml() {
+    fs.readFile('./feed.xml', 'utf8', function (err,data) {
+    if (err) {
+      return console.log(err);
+    }
+    var duration = 600;
+    var afinfo = exec('afinfo -r output.wav',
+      function (error, stdout, stderr) {
+        if (error !== null) {
+          console.log('exec error: ' + error);
+        } else {
+          duration = Math.ceil(parseInt(
+                      stdout.substring(stdout.indexOf("estimated duration: ")+20, 
+                                        stdout.indexOf(" sec"))));
+    
+      console.log(duration);
+      var stats = fs.statSync("output.wav");
+      var filesize = stats["size"];
+      
+      var xmlDoc = libxml.parseXmlString(data, { noblanks: true });
+      var item = xmlDoc.get('//item').remove();
+      xmlDoc.get('//channel')
+            .node('item')
+              .node('title', d.toUTCString().substring(0,16))
+            .parent()
+              .node('itunes:author', 'NY Times')
+            .parent()
+              .node('itunes:summary', 'The New York Times morning briefing read by Lisa from IBM Watson')
+            .parent()
+              .node('enclosure')
+                .attr({
+                  url: 'http://neilbedi.com/nyt-watson-podcast/'+day+'.mp3',
+                  length: filesize,
+                  type: 'audio/x-m4a'
+                })
+            .parent()
+              .node('guid', 'http://neilbedi.com/nyt-watson-podcast/'+day+'.mp3')
+            .parent()
+              .node('pubDate', d.toUTCString())
+            .parent()
+              .node('itunes:duration', duration.toString());
+            
+      fs.writeFile("feed.xml", xmlDoc.toString(), function(err) {
+        if(err) {
+          return console.log(err);
+        }
+        console.log("xml generated");
+      });
+    }
+    }); 
+  });
+}
