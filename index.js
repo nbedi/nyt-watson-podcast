@@ -61,7 +61,7 @@ var job = new CronJob('00 30 6 * * 1-5', function(){
             if (error !== null) {
               console.log('exec error: ' + error);
             } else {
-              var child2 = exec('ffmpeg -i output.wav '+ day +'.m4a',
+              var child2 = exec('ffmpeg -i output.wav '+ day +'.mp3',
                 function (error, stdout, stderr) {
                   if (error !== null) {
                     console.log('exec error: ' + error);
@@ -103,12 +103,12 @@ var job = new CronJob('00 30 6 * * 1-5', function(){
                 .parent()
                   .node('enclosure')
                     .attr({
-                      url: 'http://nwp.neilbedi.com/'+day+'.m4a',
+                      url: 'http://nwp.neilbedi.com/'+day+'.mp3',
                       length: filesize,
-                      type: 'audio/x-m4a'
+                      type: 'audio/x-mp3'
                     })
                 .parent()
-                  .node('guid', 'http://nwp.neilbedi.com/'+day+'.m4a')
+                  .node('guid', 'http://nwp.neilbedi.com/'+day+'.mp3')
                 .parent()
                   .node('pubDate', d.toUTCString())
                 .parent()
