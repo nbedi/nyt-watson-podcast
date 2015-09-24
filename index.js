@@ -104,12 +104,12 @@ var job = new CronJob('00 30 6 * * 1-5', function(){
                 .parent()
                   .node('enclosure')
                     .attr({
-                      url: 'http://neilbedi.com/nyt-watson-podcast/'+day+'.mp3',
+                      url: 'http://neilbedi.com/nyt-watson-podcast/'+day+'.m4a',
                       length: filesize,
                       type: 'audio/x-m4a'
                     })
                 .parent()
-                  .node('guid', 'http://neilbedi.com/nyt-watson-podcast/'+day+'.mp3')
+                  .node('guid', 'http://neilbedi.com/nyt-watson-podcast/'+day+'.m4a')
                 .parent()
                   .node('pubDate', d.toUTCString())
                 .parent()
