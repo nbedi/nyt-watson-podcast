@@ -7,9 +7,10 @@ Site at http://neilbedi.com/nyt-watson-podcast
 ## Installation
 
 1. Clone repo
-2. Set up IBM Bluemix account
-3. Save IBM Watson API auth params in watson-params.json
-4. Run node index.js
+2. Add [feed.xml](http://www.apple.com/itunes/podcasts/specs.html) file
+3. Set up IBM Bluemix account
+4. Save IBM Watson API auth params in watson-params.json
+5. Run node index.js
 
 ## Contributing
 
