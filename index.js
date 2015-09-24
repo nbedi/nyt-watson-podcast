@@ -11,7 +11,8 @@ var text_to_speech = watson.text_to_speech(watson_params);
 var d = new Date();
 var days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 var day = days[d.getDay()-1];
- 
+var soxString = "";
+
 request(nyt, function (error, response, body) {
   if (!error && response.statusCode == 200) {
     
@@ -27,7 +28,6 @@ request(nyt, function (error, response, body) {
                     .replace(/thereisnowaytheywillhavethistext/g, "<break time='1s'/>");
 
     var transcriptArray = transcript.split("<split>");
-    var soxString = "";
     transcriptArray.forEach(function(d,i) {
         var params = {
           text: d,
@@ -36,9 +36,20 @@ request(nyt, function (error, response, body) {
         };
          
         // Pipe the synthesized text to a file 
-        text_to_speech.synthesize(params).pipe(fs.createWriteStream('output'+i+'.wav'));
+        var wavStream = fs.createWriteStream('output'+i+'.wav');
+        wavStream.on('close', function() {
+          appendWav(transcriptArray.length);
+        });
+        text_to_speech.synthesize(params).pipe(wavStream);
         soxString += "output" + i + ".wav ";
     });
+  }
+});
+
+var wavCount = 0;
+function appendWav(itemCount) {
+  wavCount++;
+  if (wavCount == itemCount) {
     var child1 = exec('sox '+ soxString +' output.wav',
       function (error, stdout, stderr) {
         if (error !== null) {
@@ -55,7 +66,7 @@ request(nyt, function (error, response, body) {
         }
     });
   }
-});
+}
 
 function generateXml() {
     fs.readFile('./feed.xml', 'utf8', function (err,data) {
@@ -72,7 +83,6 @@ function generateXml() {
                       stdout.substring(stdout.indexOf("estimated duration: ")+20, 
                                         stdout.indexOf(" sec"))));
     
-      console.log(duration);
       var stats = fs.statSync("output.wav");
       var filesize = stats["size"];
       
