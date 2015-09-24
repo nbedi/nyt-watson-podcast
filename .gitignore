@@ -1,4 +1,6 @@
-output.wav
+*.wav
+*.xml
+*.m4a
 
 # Watson params
 watson-params.json
