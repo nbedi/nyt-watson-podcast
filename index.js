@@ -6,8 +6,8 @@ var watson_params = require('./watson-params.json');
 var libxml = require("libxmljs");
 var exec = require('child_process').exec;
 
-// var text_to_speech = watson.text_to_speech(watson_params);
-// 
+var text_to_speech = watson.text_to_speech(watson_params);
+
 var d = new Date();
 var days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 var day = days[d.getDay()-1];
