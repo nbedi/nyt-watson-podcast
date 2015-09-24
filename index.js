@@ -61,7 +61,7 @@ var job = new CronJob('00 30 6 * * 1-5', function(){
             if (error !== null) {
               console.log('exec error: ' + error);
             } else {
-              var child2 = exec('afconvert -d alac output.wav '+ day +'.m4a',
+              var child2 = exec('ffmpeg -i output.wav '+ day +'.m4a',
                 function (error, stdout, stderr) {
                   if (error !== null) {
                     console.log('exec error: ' + error);
@@ -79,15 +79,14 @@ var job = new CronJob('00 30 6 * * 1-5', function(){
         if (err) {
           return console.log(err);
         }
-        var duration = 600;
-        var afinfo = exec('afinfo -r output.wav',
+        var duration = "";
+        var ffmpeg = exec('ffmpeg -i output.wav -f null /dev/null',
           function (error, stdout, stderr) {
             if (error !== null) {
               console.log('exec error: ' + error);
             } else {
-              duration = Math.ceil(parseInt(
-                          stdout.substring(stdout.indexOf("estimated duration: ")+20, 
-                                            stdout.indexOf(" sec"))));
+              duration = stderr.substring(stderr.indexOf("Duration: ")+10, stderr.length)
+                                .substring(0, 8);
         
           var stats = fs.statSync("output.wav");
           var filesize = stats["size"];
@@ -113,7 +112,7 @@ var job = new CronJob('00 30 6 * * 1-5', function(){
                 .parent()
                   .node('pubDate', d.toUTCString())
                 .parent()
-                  .node('itunes:duration', duration.toString());
+                  .node('itunes:duration', duration);
                 
           fs.writeFile("feed.xml", xmlDoc.toString(), function(err) {
             if(err) {
