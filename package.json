@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/nbedi/nyt-watson-podcast",
   "dependencies": {
+    "libxmljs": "^0.14.3",
     "request": "^2.62.0",
-    "watson-developer-cloud": "^0.10.3",
-    "xml-stream": "^0.4.5"
+    "watson-developer-cloud": "^0.10.3"
   }
 }
