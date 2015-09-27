@@ -61,7 +61,7 @@ var job = new CronJob('00 30 6 * * 1-5', function(){
             if (error !== null) {
               console.log('exec error: ' + error);
             } else {
-              var child2 = exec('ffmpeg -i output.wav '+ day +'.mp3',
+              var child2 = exec('ffmpeg -y -i output.wav '+ day +'.mp3',
                 function (error, stdout, stderr) {
                   if (error !== null) {
                     console.log('exec error: ' + error);
