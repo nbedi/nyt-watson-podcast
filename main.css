@@ -8,6 +8,7 @@ body {
     -webkit-text-size-adjust: 100%;
     max-width: 600px;
     margin: auto;
+    padding: 15px;
 }
 
 header {
