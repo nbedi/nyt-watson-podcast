@@ -1,6 +1,7 @@
 *.wav
 *.xml
 *.m4a
+*.mp3
 
 # Watson params
 watson-params.json
