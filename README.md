@@ -2,7 +2,7 @@
 
 Here's IBM's Watson with the New York Times morning briefing
 
-Site at http://neilbedi.com/nyt-watson-podcast
+Site at http://nwp.neilbedi.com
 
 ## Installation
 
